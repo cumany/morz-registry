@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "Morz 社区索引（自动生成）",
-  "updatedAt": 1794616437848,
+  "updatedAt": 1794616913226,
   "plugins": [
     {
       "id": "smart-filter",
@@ -42,6 +42,7 @@
       "stars": 0,
       "pushedAt": "2026-11-13T18:57:12Z",
       "trust": "community",
+      "icon": "icon.svg",
       "tag": "v1.0.0"
     }
   ],
@@ -52,15 +53,16 @@
       "description": "Blue Topaz 的 Morz 适配版：托帕蓝、蓝色标题阶梯（暗色绿→青→蓝→紫）、着色引言与圆角代码/表格卡片，明暗成对。",
       "author": "Cuman (Morz adaptation), whyt-byte & PKMer community (upstream Blue Topaz)",
       "repo": "cumany/morz-bluetopaz",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "permissions": [],
       "sha256": {
         "theme.css": "ba0e8dc01c183151066634113248e23e832d31ed403c250199f406831d1b1cd8"
       },
       "stars": 0,
-      "pushedAt": "2026-11-13T18:03:33Z",
+      "pushedAt": "2026-11-14T00:41:08Z",
       "trust": "community",
-      "tag": "v1.0.0",
+      "preview": "preview.jpg",
+      "tag": "v1.0.1",
       "modes": [
         "light",
         "dark"

@@ -26,6 +26,11 @@ const HEADERS = {
 const KNOWN_PERMISSIONS = new Set(["vault:read", "vault:write", "workspace", "views", "settings"]);
 // 确定性危险模式：命中即排除出索引（不做人身判断，只做机械拦截）
 const DANGER_PATTERNS = [/\beval\s*\(/, /\bnew\s+Function\s*\(/];
+// 高风险未声明写操作：main.js 里调用但 manifest 未声明 vault:write → 排除
+const WRITE_USAGE = [/ctx\.vault\.write/, /ctx\.vault\.delete/, /ctx\.vault\.create/];
+// logo/preview 自动探测候选（manifest 未声明时按序找根目录文件）
+const ICON_CANDIDATES = ["icon.svg", "icon.png", "logo.svg", "logo.png"];
+const PREVIEW_CANDIDATES = ["preview.png", "preview.jpg", "preview.webp", "screenshot.png", "screenshot.jpg"];
 
 const scanLog = [];
 const log = (level, repo, message) => {
@@ -109,6 +114,9 @@ async function scanKind(kind, topic) {
         ref = branch.commit.sha;
       }
 
+      // 根目录文件清单：一次调用，用于 logo/preview 自动探测
+      const rootFiles = new Set((await gh(`/repos/${fullName}/contents/?ref=${encodeURIComponent(ref)}`)).map(f => f.name));
+
       const manifestRaw = await readRepoFile(fullName, ref, "manifest.json");
       if (!manifestRaw) { log("SKIP", fullName, "根目录没有 manifest.json"); continue; }
       const manifestCheck = validateManifest(manifestRaw, fullName, kind);
@@ -122,6 +130,24 @@ async function scanKind(kind, topic) {
 
       const warnings = [...manifestCheck.warnings];
       const unknownPerms = (manifest.permissions ?? []).filter(p => !KNOWN_PERMISSIONS.has(p));
+
+      // 自动审核门禁：声明的权限 vs 实际调用。未声明的写操作 → 排除（FAIL 级）
+      const declared = new Set(manifest.permissions ?? []);
+      const writeUsage = kind === "plugins" && !declared.has("vault:write") && WRITE_USAGE.some(p => p.test(mainJs));
+      if (writeUsage) { log("EXCLUDE", fullName, "main.js 使用了写操作但未声明 vault:write 权限"); continue; }
+      // 外部域名盘点：进扫描报告（WARN 级，供人工看去向）
+      const externalHosts = kind === "plugins"
+        ? [...new Set([...mainJs.matchAll(/https?:\/\/([a-zA-Z0-9.-]+)/g)].map(m2 => m2[1]))].filter(h => !/github|jsdelivr|w3\.org/.test(h)).slice(0, 12)
+        : [];
+      if (externalHosts.length) log("WARN", fullName, "外部域名: " + externalHosts.join(", "));
+
+      // logo/preview：manifest 声明优先，否则根目录自动探测
+      const pickExisting = (declaredPath, candidates) => {
+        if (typeof declaredPath === "string" && rootFiles.has(declaredPath)) return declaredPath;
+        return candidates.find(c => rootFiles.has(c)) || undefined;
+      };
+      const icon = kind === "plugins" ? pickExisting(manifest.icon, ICON_CANDIDATES) : undefined;
+      const preview = kind === "themes" ? pickExisting(manifest.preview, PREVIEW_CANDIDATES) : undefined;
 
       const entry = {
         id: String(manifest.id),
@@ -137,6 +163,8 @@ async function scanKind(kind, topic) {
         pushedAt: repo.pushed_at,
         trust: "community",
       };
+      if (icon) entry.icon = icon;
+      if (preview) entry.preview = preview;
       if (isRelease) entry.tag = ref; else entry.commit = ref;
       if (manifest.main) entry.main = String(manifest.main);
       if (kind === "themes") {
