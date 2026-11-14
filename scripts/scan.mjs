@@ -23,7 +23,7 @@ const HEADERS = {
 };
 
 // 已知权限词表；未知权限不拒绝（SDK 会扩展），但在报告里标记为 WARN
-const KNOWN_PERMISSIONS = new Set(["vault:read", "vault:write", "workspace", "views", "settings"]);
+const KNOWN_PERMISSIONS = new Set(["vault:read", "vault:write", "workspace", "views", "editor:insert", "settings"]);
 // 确定性危险模式：命中即排除出索引（不做人身判断，只做机械拦截）
 const DANGER_PATTERNS = [/\beval\s*\(/, /\bnew\s+Function\s*\(/];
 // 高风险未声明写操作：main.js 里调用但 manifest 未声明 vault:write → 排除
