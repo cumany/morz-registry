@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "name": "Morz 社区索引（自动生成）",
+  "updatedAt": 1794616437848,
+  "plugins": [
+    {
+      "id": "smart-filter",
+      "name": "智能筛选",
+      "description": "按目录/标签/frontmatter 条件筛选全库文件，表格/列表/画廊视图，支持分页、结果内快速筛选、排序、选列与预设；frontmatter 标量可直接就地编辑。",
+      "author": "Morz",
+      "repo": "cumany/morz-smart-filter",
+      "version": "1.0.0",
+      "permissions": [
+        "vault:read",
+        "vault:write",
+        "workspace",
+        "views",
+        "settings"
+      ],
+      "sha256": {
+        "main.js": "fa03990a316fd7cafde74f2aa9db0746855638f8b84ad39cc87e13e20a44591e"
+      },
+      "stars": 0,
+      "pushedAt": "2026-11-14T00:18:37Z",
+      "trust": "community",
+      "tag": "v1.0.0"
+    },
+    {
+      "id": "morz.reading-progress",
+      "name": "阅读进度",
+      "description": "在状态栏显示当前文档的阅读进度和剩余时间。",
+      "author": "Morz",
+      "repo": "cumany/morz-reading-progress",
+      "version": "1.0.0",
+      "permissions": [
+        "workspace",
+        "settings"
+      ],
+      "sha256": {
+        "main.js": "69d1fe5bfb7335bd0ea9548383f36c08af6190894ca705f3bf7bcd75061ba4a6"
+      },
+      "stars": 0,
+      "pushedAt": "2026-11-13T18:57:12Z",
+      "trust": "community",
+      "tag": "v1.0.0"
+    }
+  ],
+  "themes": [
+    {
+      "id": "blue-topaz",
+      "name": "蓝托帕石",
+      "description": "Blue Topaz 的 Morz 适配版：托帕蓝、蓝色标题阶梯（暗色绿→青→蓝→紫）、着色引言与圆角代码/表格卡片，明暗成对。",
+      "author": "Cuman (Morz adaptation), whyt-byte & PKMer community (upstream Blue Topaz)",
+      "repo": "cumany/morz-bluetopaz",
+      "version": "1.0.0",
+      "permissions": [],
+      "sha256": {
+        "theme.css": "ba0e8dc01c183151066634113248e23e832d31ed403c250199f406831d1b1cd8"
+      },
+      "stars": 0,
+      "pushedAt": "2026-11-13T18:03:33Z",
+      "trust": "community",
+      "tag": "v1.0.0",
+      "modes": [
+        "light",
+        "dark"
+      ],
+      "nameEn": "Blue Topaz"
+    }
+  ]
+}
