@@ -1,4 +1,4 @@
-# morz-registry · DSH 自发布索引生成器
+# morz-registry 自发布索引生成器
 
 扫描 GitHub topic（`morz-plugin` / `morz-theme`），对每个仓库做确定性校验后自动生成
 社区索引 `index.json`——作者**加 topic 即上架**，无需 PR、无需等待审核。
