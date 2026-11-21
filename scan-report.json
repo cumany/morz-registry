@@ -1,35 +1,35 @@
 {
-  "generatedAt": "2026-11-20T10:42:15.526Z",
+  "generatedAt": "2026-11-21T10:25:18.087Z",
   "log": [
     {
       "level": "INFO",
       "repo": "morz-plugin",
       "message": "发现 2 个仓库",
-      "at": "2026-11-20T10:42:12.486Z"
+      "at": "2026-11-21T10:25:16.072Z"
     },
     {
       "level": "INCLUDE",
       "repo": "cumany/morz-smart-filter",
       "message": "v1.0.0 @ v1.0.0",
-      "at": "2026-11-20T10:42:13.459Z"
+      "at": "2026-11-21T10:25:16.721Z"
     },
     {
       "level": "INCLUDE",
       "repo": "cumany/morz-reading-progress",
       "message": "v1.0.0 @ v1.0.0",
-      "at": "2026-11-20T10:42:14.206Z"
+      "at": "2026-11-21T10:25:17.263Z"
     },
     {
       "level": "INFO",
       "repo": "morz-theme",
       "message": "发现 1 个仓库",
-      "at": "2026-11-20T10:42:14.723Z"
+      "at": "2026-11-21T10:25:17.506Z"
     },
     {
       "level": "INCLUDE",
       "repo": "cumany/morz-bluetopaz",
       "message": "v1.0.1 @ v1.0.1",
-      "at": "2026-11-20T10:42:15.526Z"
+      "at": "2026-11-21T10:25:18.085Z"
     }
   ],
   "counts": {
