@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "Morz 社区索引（自动生成）",
-  "updatedAt": 1795343361133,
+  "updatedAt": 1795433321136,
   "plugins": [
     {
       "id": "smart-filter",
