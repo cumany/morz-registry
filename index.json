@@ -1,8 +1,30 @@
 {
   "schemaVersion": 1,
   "name": "Morz 社区索引（自动生成）",
-  "updatedAt": 1795433321136,
+  "updatedAt": 1795492373331,
   "plugins": [
+    {
+      "id": "folder-icons",
+      "name": "文件夹图标",
+      "description": "给文件树的文件夹设置 Lucide 图标：右键设置、图标可搜索（支持中文）、内置 2102 个图标、可按文件夹名规则批量匹配",
+      "author": "PKMer",
+      "repo": "juestchaos/morz-folder-icons",
+      "version": "1.0.0",
+      "permissions": [
+        "vault:read",
+        "workspace",
+        "views",
+        "settings"
+      ],
+      "sha256": {
+        "main.js": "11bab3c467fbd0f67e3cdff687ee4375480f0e02d726c105ae3b50b9c15d308d"
+      },
+      "stars": 0,
+      "pushedAt": "2026-11-24T03:22:40Z",
+      "trust": "community",
+      "icon": "icon-128.svg",
+      "commit": "aa9e3e5ce7580e884f561bb27555e96e561587b1"
+    },
     {
       "id": "smart-filter",
       "name": "智能筛选",
