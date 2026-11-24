@@ -1,14 +1,16 @@
-// 扫描 GitHub topic（morz-plugin / morz-theme），确定性校验后生成社区索引 index.json。
+// 扫描 GitHub topic（morz-plugin / morz-theme），确定性校验 + AI 审核后生成社区索引。
 //
 // DSH 自发布流程（docs/PRODUCT-STRATEGY-2026.md §5.2）：
 //   作者给仓库加 topic + 根目录 manifest.json → 本脚本每天扫一遍 → 生成默认索引。
 // 校验失败的仓库不进索引（理由写入 scan-report.json）；通过校验的条目带 sha256，
 // 客户端安装时会校验（审过的内容 = 发布的内容）。
+// AI 审核是辅助门禁：LLM_API_KEY 配置后，reject/审核失败不收录；未配置时只做确定性校验。
 //
 // 用法: GH_TOKEN=<token> node scripts/scan.mjs [输出目录，默认 dist]
 import { mkdir, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
+import { aiReviewEnabled, reviewPackage } from "./review.mjs";
 
 const API = "https://api.github.com";
 const TOKEN = process.env.GITHUB_TOKEN || "";
@@ -22,12 +24,44 @@ const HEADERS = {
   ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}),
 };
 
+/** 上一版社区索引：用于复用同一 commit 的 AI 审核结果，避免每天重复付费。 */
+const PREVIOUS_INDEX_URL = "https://raw.githubusercontent.com/cumany/morz-registry/gh-pages/index.json";
+
+async function loadPreviousReviews() {
+  const map = new Map();
+  try {
+    const response = await fetch(PREVIOUS_INDEX_URL, { headers: HEADERS });
+    if (!response.ok) return map;
+    const index = await response.json();
+    for (const kind of ["plugins", "themes"]) {
+      for (const entry of index?.[kind] ?? []) {
+        if (!entry?.repo) continue;
+        map.set(entry.repo, {
+          ref: entry.tag || entry.commit || "",
+          hash: Object.values(entry.sha256 ?? {})[0] || "",
+          review: entry.review ?? null,
+        });
+      }
+    }
+  } catch { /* 首次运行/离线：没有旧审核，全部重新审 */ }
+  return map;
+}
+
+/** 同一 repo + 同一 commit + 同一入口哈希时复用旧结论。 */
+function cachedReview(previous, repo, ref, hash) {
+  const old = previous.get(repo);
+  if (!old || !old.review || old.review.status === "error") return null;
+  if (old.review.status === "skipped" && aiReviewEnabled()) return null;
+  if (old.ref !== (ref || "") || old.hash !== (hash || "")) return null;
+  return old.review;
+}
+
 // 已知权限词表；未知权限不拒绝（SDK 会扩展），但在报告里标记为 WARN
-const KNOWN_PERMISSIONS = new Set(["vault:read", "vault:write", "workspace", "views", "editor:insert", "settings"]);
+const KNOWN_PERMISSIONS = new Set(["vault:read", "vault:write", "workspace", "views", "editor:insert", "editor:highlight", "editor:direct", "settings", "http"]);
 // 确定性危险模式：命中即排除出索引（不做人身判断，只做机械拦截）
 const DANGER_PATTERNS = [/\beval\s*\(/, /\bnew\s+Function\s*\(/];
 // 高风险未声明写操作：main.js 里调用但 manifest 未声明 vault:write → 排除
-const WRITE_USAGE = [/ctx\.vault\.write/, /ctx\.vault\.delete/, /ctx\.vault\.create/];
+const WRITE_USAGE = [/ctx\.vault\.(write|delete|create|remove|rename|setFrontmatter|writeBlob|trash)/];
 // logo/preview 自动探测候选（manifest 未声明时按序找根目录文件）
 const ICON_CANDIDATES = ["icon.svg", "icon.png", "logo.svg", "logo.png"];
 const PREVIEW_CANDIDATES = ["preview.png", "preview.jpg", "preview.webp", "screenshot.png", "screenshot.jpg"];
@@ -92,7 +126,7 @@ function validateMainJs(mainJs, kind) {
   return { ok: errors.length === 0, errors, warnings, sha256: sha256(mainJs) };
 }
 
-async function scanKind(kind, topic) {
+async function scanKind(kind, topic, previous) {
   const search = await gh(`/search/repositories?q=topic:${topic}&per_page=100&sort=updated`);
   const repos = search.items ?? [];
   log("INFO", topic, `发现 ${repos.length} 个仓库`);
@@ -128,6 +162,20 @@ async function scanKind(kind, topic) {
       const mainCheck = validateMainJs(mainJs, kind);
       if (!mainCheck.ok) { log("EXCLUDE", fullName, mainCheck.errors.join("; ")); continue; }
 
+      // AI 审核：同一 commit + 同一入口哈希复用旧结论；reject/error 不进社区索引。
+      let review = cachedReview(previous, fullName, ref, mainCheck.sha256);
+      if (!review) {
+        review = await reviewPackage({ repo: fullName, ref, kind, manifest, code: mainJs });
+        if (review.status === "reject") {
+          log("EXCLUDE", fullName, `AI 审核 reject: ${(review.reasons ?? [review.summary]).join("; ")}`);
+          continue;
+        }
+        if (review.status === "error") {
+          log("ERROR", fullName, `AI 审核失败，暂不收录: ${review.reason}`);
+          continue;
+        }
+      }
+
       const warnings = [...manifestCheck.warnings];
       const unknownPerms = (manifest.permissions ?? []).filter(p => !KNOWN_PERMISSIONS.has(p));
 
@@ -162,6 +210,14 @@ async function scanKind(kind, topic) {
         stars: repo.stargazers_count,
         pushedAt: repo.pushed_at,
         trust: "community",
+        review: {
+          status: review.status,
+          ...(review.risk ? { risk: review.risk } : {}),
+          ...(review.reasons?.length ? { reasons: review.reasons } : {}),
+          ...(review.summary ? { summary: review.summary } : {}),
+          ...(review.model ? { model: review.model } : {}),
+          ...(review.at ? { at: review.at } : {}),
+        },
       };
       if (icon) entry.icon = icon;
       if (preview) entry.preview = preview;
@@ -175,7 +231,7 @@ async function scanKind(kind, topic) {
       }
       if (manifest.changelog) entry.changelog = String(manifest.changelog).slice(0, MAX_CHANGELOG);
       entries.push(entry);
-      log("INCLUDE", fullName, `v${manifest.version} @ ${ref}${unknownPerms.length ? ` (未知权限: ${unknownPerms.join(",")})` : ""}`);
+      log("INCLUDE", fullName, `v${manifest.version} @ ${ref} · AI ${review.status}${review.risk ? "/" + review.risk : ""}${unknownPerms.length ? ` (未知权限: ${unknownPerms.join(",")})` : ""}`);
     } catch (error) {
       log("EXCLUDE", fullName, error instanceof Error ? error.message : String(error));
     }
@@ -183,9 +239,12 @@ async function scanKind(kind, topic) {
   return entries;
 }
 
+const previous = await loadPreviousReviews();
+if (!aiReviewEnabled()) log("WARN", "ai", "LLM_API_KEY 未配置：本次只做确定性校验，review.status=skipped");
+
 const OUT = {
-  plugins: await scanKind("plugins", "morz-plugin"),
-  themes: await scanKind("themes", "morz-theme"),
+  plugins: await scanKind("plugins", "morz-plugin", previous),
+  themes: await scanKind("themes", "morz-theme", previous),
 };
 
 const index = {
