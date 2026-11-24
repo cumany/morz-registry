@@ -138,10 +138,13 @@ async function scanKind(kind, topic, previous) {
       // 钉住策略：优先最新 Release 的 tag；无 Release 则钉默认分支 commit
       let ref = null;
       let isRelease = false;
+      let releaseDownloads = 0;
       try {
         const release = await gh(`/repos/${fullName}/releases/latest`);
         ref = release.tag_name;
         isRelease = true;
+        // GitHub 只统计 Release 资产的下载；源码安装（本市场默认）不会计数。
+        releaseDownloads = (release.assets ?? []).reduce((sum, asset) => sum + (Number(asset.download_count) || 0), 0);
       } catch { /* 无 Release：用 HEAD commit 钉住 */ }
       if (!ref) {
         const branch = await gh(`/repos/${fullName}/branches/${encodeURIComponent(repo.default_branch)}`);
@@ -208,6 +211,7 @@ async function scanKind(kind, topic, previous) {
         permissions: manifest.permissions ?? [],
         sha256: { [mainPath]: mainCheck.sha256 },
         stars: repo.stargazers_count,
+        ...(releaseDownloads > 0 ? { downloads: releaseDownloads } : {}),
         pushedAt: repo.pushed_at,
         trust: "community",
         review: {
