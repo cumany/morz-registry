@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "Morz 社区索引（自动生成）",
-  "updatedAt": 1795492373331,
+  "updatedAt": 1795525402352,
   "plugins": [
     {
       "id": "folder-icons",
@@ -22,6 +22,9 @@
       "stars": 0,
       "pushedAt": "2026-11-24T03:22:40Z",
       "trust": "community",
+      "review": {
+        "status": "skipped"
+      },
       "icon": "icon-128.svg",
       "commit": "aa9e3e5ce7580e884f561bb27555e96e561587b1"
     },
@@ -43,8 +46,12 @@
         "main.js": "fa03990a316fd7cafde74f2aa9db0746855638f8b84ad39cc87e13e20a44591e"
       },
       "stars": 0,
+      "downloads": 4,
       "pushedAt": "2026-11-14T00:18:37Z",
       "trust": "community",
+      "review": {
+        "status": "skipped"
+      },
       "tag": "v1.0.0"
     },
     {
@@ -62,8 +69,12 @@
         "main.js": "69d1fe5bfb7335bd0ea9548383f36c08af6190894ca705f3bf7bcd75061ba4a6"
       },
       "stars": 0,
+      "downloads": 5,
       "pushedAt": "2026-11-13T18:57:12Z",
       "trust": "community",
+      "review": {
+        "status": "skipped"
+      },
       "icon": "icon.svg",
       "tag": "v1.0.0"
     }
@@ -81,8 +92,12 @@
         "theme.css": "ba0e8dc01c183151066634113248e23e832d31ed403c250199f406831d1b1cd8"
       },
       "stars": 0,
+      "downloads": 1,
       "pushedAt": "2026-11-14T00:41:08Z",
       "trust": "community",
+      "review": {
+        "status": "skipped"
+      },
       "preview": "preview.jpg",
       "tag": "v1.0.1",
       "modes": [
