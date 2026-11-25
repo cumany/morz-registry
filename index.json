@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "Morz 社区索引（自动生成）",
-  "updatedAt": 1795525402352,
+  "updatedAt": 1795607520123,
   "plugins": [
     {
       "id": "folder-icons",
@@ -92,7 +92,7 @@
         "theme.css": "ba0e8dc01c183151066634113248e23e832d31ed403c250199f406831d1b1cd8"
       },
       "stars": 0,
-      "downloads": 1,
+      "downloads": 5,
       "pushedAt": "2026-11-14T00:41:08Z",
       "trust": "community",
       "review": {
