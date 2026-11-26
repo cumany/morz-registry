@@ -1,51 +1,57 @@
 {
-  "generatedAt": "2026-11-25T11:52:00.124Z",
+  "generatedAt": "2026-11-26T11:41:17.987Z",
   "log": [
     {
       "level": "WARN",
       "repo": "ai",
       "message": "LLM_API_KEY 未配置：本次只做确定性校验，review.status=skipped",
-      "at": "2026-11-25T11:51:55.706Z"
+      "at": "2026-11-26T11:41:12.974Z"
     },
     {
       "level": "INFO",
       "repo": "morz-plugin",
-      "message": "发现 3 个仓库",
-      "at": "2026-11-25T11:51:56.246Z"
+      "message": "发现 4 个仓库",
+      "at": "2026-11-26T11:41:13.518Z"
+    },
+    {
+      "level": "INCLUDE",
+      "repo": "juestchaos/morz-ribbon-style-toolbar",
+      "message": "v0.1.1 @ v0.1.1 · AI skipped",
+      "at": "2026-11-26T11:41:14.520Z"
     },
     {
       "level": "INCLUDE",
       "repo": "juestchaos/morz-folder-icons",
-      "message": "v1.0.0 @ aa9e3e5ce7580e884f561bb27555e96e561587b1 · AI skipped",
-      "at": "2026-11-25T11:51:57.598Z"
+      "message": "v1.0.1 @ v1.0.1 · AI skipped",
+      "at": "2026-11-26T11:41:15.283Z"
     },
     {
       "level": "INCLUDE",
       "repo": "cumany/morz-smart-filter",
       "message": "v1.0.0 @ v1.0.0 · AI skipped",
-      "at": "2026-11-25T11:51:58.357Z"
+      "at": "2026-11-26T11:41:16.059Z"
     },
     {
       "level": "INCLUDE",
       "repo": "cumany/morz-reading-progress",
       "message": "v1.0.0 @ v1.0.0 · AI skipped",
-      "at": "2026-11-25T11:51:59.089Z"
+      "at": "2026-11-26T11:41:16.795Z"
     },
     {
       "level": "INFO",
       "repo": "morz-theme",
       "message": "发现 1 个仓库",
-      "at": "2026-11-25T11:51:59.392Z"
+      "at": "2026-11-26T11:41:17.137Z"
     },
     {
       "level": "INCLUDE",
       "repo": "cumany/morz-bluetopaz",
       "message": "v1.0.1 @ v1.0.1 · AI skipped",
-      "at": "2026-11-25T11:52:00.123Z"
+      "at": "2026-11-26T11:41:17.975Z"
     }
   ],
   "counts": {
-    "plugins": 3,
+    "plugins": 4,
     "themes": 1
   }
 }
