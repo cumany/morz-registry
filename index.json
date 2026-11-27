@@ -1,34 +1,63 @@
 {
   "schemaVersion": 1,
   "name": "Morz 社区索引（自动生成）",
-  "updatedAt": 1795693277975,
+  "updatedAt": 1795779236482,
   "plugins": [
+    {
+      "id": "morz-calendar-tasks",
+      "name": "日历与任务 Calendar & Tasks",
+      "description": "Morz 原生日历与任务插件：放大日历、农历与节日、彩色任务块与重叠分栏、Day Planner 日视图、多语法任务兼容与写回。",
+      "author": "PKMer",
+      "repo": "juestchaos/morz-calendar-task",
+      "version": "0.3.4",
+      "permissions": [
+        "vault:read",
+        "vault:write",
+        "workspace",
+        "views",
+        "settings",
+        "editor:insert"
+      ],
+      "sha256": {
+        "main.js": "acb32ac5deb1ebf4ecd9b043c594b828f1c81491a515a39381722ac3a29363dd"
+      },
+      "stars": 0,
+      "pushedAt": "2026-11-27T06:03:04Z",
+      "trust": "community",
+      "review": {
+        "status": "skipped"
+      },
+      "icon": "icon.svg",
+      "tag": "v0.3.4",
+      "main": "main.js"
+    },
     {
       "id": "morz-ribbon",
       "name": "Ribbon 工具栏",
       "description": "把单行格式栏重排为两行分组 Ribbon，启用即隐藏原生格式栏，窄屏自动折叠",
       "author": "PKMer",
       "repo": "juestchaos/morz-ribbon-style-toolbar",
-      "version": "0.1.1",
+      "version": "0.1.5",
       "minAppVersion": "0.3.0",
       "permissions": [
         "workspace",
+        "views",
         "editor:insert",
         "editor:direct",
         "settings",
         "vault:write"
       ],
       "sha256": {
-        "main.js": "c27a137d94eb1550df2a6e99338a6501f2a98ae29e3e8a18376e367ffa52112d"
+        "main.js": "39b626e0a0b178791c4c4c159bf0424f6c70cbcf53a5b83f0d6e6c4baf08c50f"
       },
       "stars": 0,
-      "pushedAt": "2026-11-26T03:13:28Z",
+      "pushedAt": "2026-11-27T04:12:37Z",
       "trust": "community",
       "review": {
         "status": "skipped"
       },
       "icon": "icon.svg",
-      "tag": "v0.1.1",
+      "tag": "v0.1.5",
       "main": "main.js"
     },
     {

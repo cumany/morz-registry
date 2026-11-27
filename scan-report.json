@@ -1,57 +1,63 @@
 {
-  "generatedAt": "2026-11-26T11:41:17.987Z",
+  "generatedAt": "2026-11-27T11:33:56.484Z",
   "log": [
     {
       "level": "WARN",
       "repo": "ai",
       "message": "LLM_API_KEY 未配置：本次只做确定性校验，review.status=skipped",
-      "at": "2026-11-26T11:41:12.974Z"
+      "at": "2026-11-27T11:33:51.043Z"
     },
     {
       "level": "INFO",
       "repo": "morz-plugin",
-      "message": "发现 4 个仓库",
-      "at": "2026-11-26T11:41:13.518Z"
+      "message": "发现 5 个仓库",
+      "at": "2026-11-27T11:33:51.472Z"
+    },
+    {
+      "level": "INCLUDE",
+      "repo": "juestchaos/morz-calendar-task",
+      "message": "v0.3.4 @ v0.3.4 · AI skipped",
+      "at": "2026-11-27T11:33:52.292Z"
     },
     {
       "level": "INCLUDE",
       "repo": "juestchaos/morz-ribbon-style-toolbar",
-      "message": "v0.1.1 @ v0.1.1 · AI skipped",
-      "at": "2026-11-26T11:41:14.520Z"
+      "message": "v0.1.5 @ v0.1.5 · AI skipped",
+      "at": "2026-11-27T11:33:52.969Z"
     },
     {
       "level": "INCLUDE",
       "repo": "juestchaos/morz-folder-icons",
       "message": "v1.0.1 @ v1.0.1 · AI skipped",
-      "at": "2026-11-26T11:41:15.283Z"
+      "at": "2026-11-27T11:33:53.661Z"
     },
     {
       "level": "INCLUDE",
       "repo": "cumany/morz-smart-filter",
       "message": "v1.0.0 @ v1.0.0 · AI skipped",
-      "at": "2026-11-26T11:41:16.059Z"
+      "at": "2026-11-27T11:33:54.667Z"
     },
     {
       "level": "INCLUDE",
       "repo": "cumany/morz-reading-progress",
       "message": "v1.0.0 @ v1.0.0 · AI skipped",
-      "at": "2026-11-26T11:41:16.795Z"
+      "at": "2026-11-27T11:33:55.423Z"
     },
     {
       "level": "INFO",
       "repo": "morz-theme",
       "message": "发现 1 个仓库",
-      "at": "2026-11-26T11:41:17.137Z"
+      "at": "2026-11-27T11:33:55.769Z"
     },
     {
       "level": "INCLUDE",
       "repo": "cumany/morz-bluetopaz",
       "message": "v1.0.1 @ v1.0.1 · AI skipped",
-      "at": "2026-11-26T11:41:17.975Z"
+      "at": "2026-11-27T11:33:56.482Z"
     }
   ],
   "counts": {
-    "plugins": 4,
+    "plugins": 5,
     "themes": 1
   }
 }
