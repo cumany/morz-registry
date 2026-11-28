@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "Morz 社区索引（自动生成）",
-  "updatedAt": 1795779236482,
+  "updatedAt": 1795863848649,
   "plugins": [
     {
       "id": "morz-calendar-tasks",
@@ -138,6 +138,30 @@
     }
   ],
   "themes": [
+    {
+      "id": "catppuccin",
+      "name": "Catppuccin",
+      "description": "Catppuccin theme for Morz with Latte, Frappé, Macchiato, and Mocha palette variants.",
+      "author": "Huajin",
+      "repo": "xhuajin/morz-catppuccin",
+      "version": "1.0.1",
+      "permissions": [],
+      "sha256": {
+        "theme.css": "bb94beafe9848e1c2f82a87c9535845f7ac5bc12ffbffa144b3dd6cae1df0f40"
+      },
+      "stars": 0,
+      "pushedAt": "2026-11-28T10:53:17Z",
+      "trust": "community",
+      "review": {
+        "status": "skipped"
+      },
+      "commit": "c19c4c160a84ba136e8c72334ed42d2b6206b28c",
+      "modes": [
+        "light",
+        "dark"
+      ],
+      "nameEn": "Catppuccin"
+    },
     {
       "id": "blue-topaz",
       "name": "蓝托帕石",
